@@ -5,6 +5,8 @@
 
 #pragma comment (lib, "ws2_32.lib")
 bool isServerOn{ false };
+std::future<int> serverFuture;
+
 
 int initServer() {
     std::cout << "Now in server \n";
@@ -66,7 +68,7 @@ int initServer() {
             &clientLength
         );
 
-        std::cout << "this is the number of bytes in " << bytesIn << '\n';
+        //std::cout << "this is the number of bytes in " << bytesIn << '\n';
         if (bytesIn == SOCKET_ERROR) {
             std::cout << "error from client: " << WSAGetLastError() << '\n';
             continue;
@@ -76,7 +78,7 @@ int initServer() {
         ZeroMemory(clientIp, 256);
         inet_ntop(AF_INET, &client.sin_addr, clientIp, 256);
 
-        std::cout << "message recv from " << clientIp << " : " << buff << '\n';
+        std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
     }
     closesocket(in);
     WSACleanup();

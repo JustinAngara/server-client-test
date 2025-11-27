@@ -2,7 +2,7 @@
 #include <future>
 
 // future client
+extern std::future<int> serverFuture;
 int initServer();
-std::future<int> serverFuture;
 void startServer();
 
