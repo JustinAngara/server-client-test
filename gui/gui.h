@@ -12,7 +12,6 @@ public:
     ~gui();
     
 private slots:
-    void startServer();
 
 
 private:

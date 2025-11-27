@@ -1,7 +1,9 @@
-﻿#include "gui.h"
-#include "server.h"
-#include <iostream>
-bool isServerOn{ false };
+﻿//#include "server.h"
+#include "client.h"
+#include "gui.h"
+
+
+
 
 
 gui::gui(QWidget* parent)
@@ -9,21 +11,20 @@ gui::gui(QWidget* parent)
     ui.setupUi(this);
 
     connect(ui.button, &QPushButton::clicked,
-        this, &gui::startServer);
+        this, []() {
+        });
+    connect(ui.button2, &QPushButton::clicked,
+        this, []() { startClient(); });
 }
 
-void gui::startServer() {
-    if (!isServerOn) {
-        isServerOn = true;
-        serverFuture = std::async(std::launch::async, initServer);
-    }
-    else {
-        std::cout << "server is already on\n";
-    }
-}
+
+
 
 gui::~gui() {
-    if (serverFuture.valid()) {
-        serverFuture.wait();
-    }
+    //if (serverFuture.valid()) {
+    //    serverFuture.wait();
+    //}
+    //if (clientFuture.valid()) {
+    //    clientFuture.wait();
+    //}
 }

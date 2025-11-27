@@ -4,6 +4,7 @@
 #include <iostream>
 
 #pragma comment (lib, "ws2_32.lib")
+bool isServerOn{ false };
 
 int initServer() {
     std::cout << "Now in server \n";
@@ -84,3 +85,12 @@ int initServer() {
 }
 
 
+void startServer() {
+    if (!isServerOn) {
+        isServerOn = true;
+        serverFuture = std::async(std::launch::async, initServer);
+    }
+    else {
+        std::cout << "server is already on\n";
+    }
+}
