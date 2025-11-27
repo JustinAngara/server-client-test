@@ -1,0 +1,16 @@
+.vs/
+x64/
+*.user
+*.ipch
+*.pdb
+*.obj
+*.log
+*.tlog
+*.ilk
+*.cache
+*.sdf
+*.opensdf
+*.db
+*.exe
+*.lib
+*.dll
