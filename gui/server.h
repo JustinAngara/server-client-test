@@ -1,8 +1,18 @@
 #pragma once
+
 #include <future>
 
-// future client
-extern std::future<int> serverFuture;
-int initServer();
-void startServer();
+class Server {
+public:
+    Server();
+    ~Server();
 
+    void start();
+    void stop();
+
+private:
+    int run(); 
+
+    bool isOn{ false };
+    std::future<int> future;
+};

@@ -1,21 +1,21 @@
 #pragma once
 
-#include <future>
 #include <QtWidgets/QMainWindow>
-#include "ui_gui.h"   
+#include "ui_gui.h"
+#include "client.h"
+#include "server.h"
 
-class gui : public QMainWindow {
-    Q_OBJECT 
+class gui : public QMainWindow
+{
+    Q_OBJECT
 
 public:
-    gui(QWidget* parent = nullptr);
+    explicit gui(QWidget* parent = nullptr);
     ~gui();
-    
-private slots:
-
 
 private:
-    Ui::guiClass ui;     
-    std::future<int> serverFuture;
+    Ui::guiClass ui;
 
+    Server server_;
+    Client client_;   
 };

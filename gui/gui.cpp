@@ -9,16 +9,12 @@ gui::gui(QWidget* parent)
     ui.setupUi(this);
 
     connect(ui.button, &QPushButton::clicked,
-        this, []() { startServer();  });
+        this, [this]() { server_.start();  });
     connect(ui.button2, &QPushButton::clicked,
-        this, []() { startClient(); });
+        this, [this]() { client_.start(); });
 }
 
 gui::~gui() {
-    if (serverFuture.valid()) {
-        serverFuture.wait();
-    }
-    if (clientFuture.valid()) {
-        clientFuture.wait();
-    }
+    server_.stop();
+
 }
