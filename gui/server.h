@@ -4,6 +4,8 @@
 
 class Server {
 public:
+    using OutputFn = std::function<void(const std::string&)>;
+    explicit Server(OutputFn outputFn = {});
     Server();
     ~Server();
 
@@ -15,4 +17,5 @@ private:
 
     bool isOn{ false };
     std::future<int> future;
+    OutputFn outputFn_;
 };

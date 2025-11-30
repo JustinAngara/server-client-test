@@ -1,4 +1,5 @@
-#include "Server.h"
+#include "server.h"
+#include "gui.h"
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
@@ -6,12 +7,14 @@
 
 #pragma comment (lib, "ws2_32.lib")
 
-Server::Server() = default;
+Server::Server(OutputFn outputFn)
+    : isOn(false),
+    outputFn_(std::move(outputFn)) {
+}
 
 Server::~Server() {
     stop();
 }
-
 void Server::start() {
     if (isOn) {
         std::cout << "server is already on\n";
@@ -89,8 +92,12 @@ int Server::run() {
         char clientIp[256];
         ZeroMemory(clientIp, 256);
         inet_ntop(AF_INET, &client.sin_addr, clientIp, 256);
+        
+        std::string msg(buff, bytesIn);
 
-        std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
+        // std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
+        // call the method for gui class and let the output handle itself
+        outputFn_(msg);
     }
 
     closesocket(in);

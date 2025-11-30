@@ -92,6 +92,7 @@ int Client::run() {
         }
 
         input = readLine();
+        input.pop_back();
     }
 
     closesocket(out);
