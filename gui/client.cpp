@@ -4,99 +4,89 @@
 #include <ws2tcpip.h>
 #include <string>
 #include <iostream>
-#include <future>
 
 #pragma comment (lib, "ws2_32.lib")
-
-static std::string readLine() {
-    std::string input;
-    std::getline(std::cin, input);
-    return input;
-}
 
 Client::Client(const std::string& serverIp, unsigned short port)
     : serverIp_(serverIp),
     port_(port),
-    isOn_(false) {
+    isOn_(false),
+    out_(INVALID_SOCKET) {
 }
 
 Client::~Client() {
     stop();
 }
 
-void Client::start() {
+bool Client::start() {
     if (isOn_) {
         std::cout << "client is already on\n";
-        return;
+        return true;
     }
-
-    isOn_ = true;
-    future_ = std::async(std::launch::async, &Client::run, this);
-}
-
-void Client::stop() {
-    if (future_.valid()) {
-        // optional: future_.wait();
-    }
-}
-
-int Client::run() {
-    std::cout << "Now in client\n";
 
     WSADATA data{};
     WORD version{ MAKEWORD(2, 2) };
     int wsOk{ WSAStartup(version, &data) };
     if (wsOk != 0) {
         std::cout << "cant start winsock " << wsOk << '\n';
-        isOn_ = false;
-        return 1;
+        return false;
     }
 
-    sockaddr_in server{};
-    server.sin_family = AF_INET;
-    server.sin_port = htons(port_);
+    std::memset(&server_, 0, sizeof(server_));
+    server_.sin_family = AF_INET;
+    server_.sin_port = htons(port_);
 
-    if (inet_pton(AF_INET, serverIp_.c_str(), &server.sin_addr) != 1) {
+    if (inet_pton(AF_INET, serverIp_.c_str(), &server_.sin_addr) != 1) {
         std::cout << "inet_pton failed\n";
         WSACleanup();
-        isOn_ = false;
-        return 1;
+        return false;
     }
 
-    SOCKET out = socket(AF_INET, SOCK_DGRAM, 0);
-    if (out == INVALID_SOCKET) {
+    out_ = socket(AF_INET, SOCK_DGRAM, 0);
+    if (out_ == INVALID_SOCKET) {
         std::cout << "socket() failed: " << WSAGetLastError() << '\n';
         WSACleanup();
+        return false;
+    }
+
+    isOn_ = true;
+    return true;
+}
+
+void Client::stop() {
+    if (out_ != INVALID_SOCKET) {
+        closesocket(out_);
+        out_ = INVALID_SOCKET;
+    }
+    if (isOn_) {
+        WSACleanup();
         isOn_ = false;
-        return 1;
+    }
+}
+
+bool Client::sendMessage(const std::string& msg) {
+    if (!isOn_ || out_ == INVALID_SOCKET) {
+        std::cout << "client not started or socket invalid\n";
+        return false;
     }
 
-    std::string input{ readLine() };
-    while (!input.empty()) {
-
-        int sendOk = sendto(
-            out,
-            input.c_str(),
-            static_cast<int>(input.size() + 1),
-            0,
-            reinterpret_cast<sockaddr*>(&server),
-            sizeof(server)
-        );
-
-        if (sendOk == SOCKET_ERROR) {
-            std::cout << "error " << WSAGetLastError() << '\n';
-            closesocket(out);
-            WSACleanup();
-            isOn_ = false;
-            return 1;
-        }
-
-        input = readLine();
-        input.pop_back();
+    if (msg.empty()) {
+        return true; // nothing to send, but not an error
     }
 
-    closesocket(out);
-    WSACleanup();
-    isOn_ = false;
-    return 0;
+    int sendOk = sendto(
+        out_,
+        msg.c_str(),
+        static_cast<int>(msg.size()),
+        0,
+        reinterpret_cast<sockaddr*>(&server_),
+        sizeof(server_)
+    );
+
+    if (sendOk == SOCKET_ERROR) {
+        std::cout << "sendto error " << WSAGetLastError() << '\n';
+        return false;
+    }
+
+    return true;
 }

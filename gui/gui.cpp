@@ -10,7 +10,8 @@ gui::gui(QWidget* parent)
             [this, text]() { appendOutputArea(text); },
             Qt::QueuedConnection
         );
-    }) {
+    }),
+    client_("127.0.0.1", 54000) {
 
     ui.setupUi(this);
 
@@ -20,13 +21,19 @@ gui::gui(QWidget* parent)
     connect(ui.button2, &QPushButton::clicked,
             this, [this]() { client_.start(); });
 
+    connect(ui.submit, &QPushButton::clicked,
+        this, [this]() { 
+            client_.sendMessage(gui::text_); 
+            ui.inputArea->clear();
+        });
+
     connect(ui.inputArea, &QTextEdit::textChanged,
             this, &gui::onInputAreaChanged);
     
 }
 
 void gui::onInputAreaChanged() {
-    std::string text = ui.inputArea->toPlainText().toStdString();
+    gui::text_ = ui.inputArea->toPlainText().toStdString();
     
 }
 

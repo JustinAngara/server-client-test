@@ -94,8 +94,9 @@ int Server::run() {
         inet_ntop(AF_INET, &client.sin_addr, clientIp, 256);
         
         std::string msg(buff, bytesIn);
+        msg.pop_back();// adds weird char at the end so remove
 
-        // std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
+         std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
         // call the method for gui class and let the output handle itself
         outputFn_(msg);
     }

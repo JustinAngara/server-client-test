@@ -1,22 +1,24 @@
 #pragma once
 
-#include <future>
 #include <string>
+#include <winsock2.h>
 
 class Client {
 public:
-    Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 54000);
+    Client(const std::string& serverIp, unsigned short port);
     ~Client();
 
-    void start();   // <-- this is what you will call: client.start()
-    void stop();    // optional, for later cleanup/extending
+    bool start();                           // init Winsock + socket
+    void stop();                            // cleanup
+
+    bool sendMessage(const std::string& msg);
 
 private:
-    int run();      // worker function (old initClient logic)
+
 
     std::string serverIp_;
     unsigned short port_;
-
-    bool isOn_{ false };
-    std::future<int> future_;
+    bool isOn_;
+    SOCKET out_;
+    sockaddr_in server_;
 };

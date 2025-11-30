@@ -19,7 +19,7 @@ private slots:
     void onInputAreaChanged();
 private:
     Ui::guiClass ui;
-
+    std::string text_;
     Server server_;
     Client client_;
 };
