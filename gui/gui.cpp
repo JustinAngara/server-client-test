@@ -5,13 +5,13 @@
 
 gui::gui(QWidget* parent)
 // in order to connect the method shared between client and gui
-    : QMainWindow(parent), server_([this](const std::string& text) {
+    : QMainWindow(parent), server_([this](const std::string& text) { // this is outputfn_ we are passing into
         QMetaObject::invokeMethod(this,
             [this, text]() { appendOutputArea(text); },
             Qt::QueuedConnection
         );
     }),
-    client_("127.0.0.1", 54000) {
+    client_("127.0.0.1", 54000) { 
 
     ui.setupUi(this);
 

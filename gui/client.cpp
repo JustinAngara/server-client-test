@@ -7,7 +7,7 @@
 
 #pragma comment (lib, "ws2_32.lib")
 
-Client::Client(const std::string& serverIp, unsigned short port)
+Client::Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 54000)
     : serverIp_(serverIp),
     port_(port),
     isOn_(false),
@@ -63,6 +63,8 @@ void Client::stop() {
         isOn_ = false;
     }
 }
+
+
 
 bool Client::sendMessage(const std::string& msg) {
     if (!isOn_ || out_ == INVALID_SOCKET) {

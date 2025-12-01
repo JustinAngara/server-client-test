@@ -4,6 +4,7 @@
 
 class Server {
 public:
+    // we are able to create a alias for references to teh gui
     using OutputFn = std::function<void(const std::string&)>;
     explicit Server(OutputFn outputFn = {});
 
