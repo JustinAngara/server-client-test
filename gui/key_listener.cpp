@@ -2,7 +2,11 @@
 #include <iostream>
 #include <windows.h>
 
-
+// define the static variables
+std::atomic_bool KeyListener::running_{ false };
+std::thread KeyListener::worker_{};
+std::atomic<MOVEMENT> KeyListener::dirState_{ MOVEMENT::NONE };
+std::atomic<MOVEMENT> KeyListener::lastDirState_{ MOVEMENT::NONE };
 
 MOVEMENT updateKeyState(int keyCode) {
 
@@ -29,13 +33,6 @@ MOVEMENT updateKeyState(int keyCode) {
 
     }
 }
-
-// define the static variables
-std::atomic_bool KeyListener::running_{ false };
-std::thread KeyListener::worker_{};
-std::atomic<MOVEMENT> KeyListener::dirState_{ MOVEMENT::NONE };
-std::atomic<MOVEMENT> KeyListener::lastDirState_{ MOVEMENT::NONE };
-
 void KeyListener::start() {
     
     if (running_) {
@@ -60,9 +57,11 @@ void KeyListener::stop() {
 }
 
 void KeyListener::run() {
+    int A{ static_cast<int>('A') }, Z{ static_cast<int>('Z') };
+
     while (running_) {
-        // Iterate through all possible key codes (0 to 255)
-        for (int keyCode = 0; keyCode < 256; keyCode++) {
+        // iterate through the [A-Z]
+        for (int keyCode = A; keyCode <= Z; keyCode++) {
 
             // pressed
             if (GetAsyncKeyState(keyCode) & 0x8000) {

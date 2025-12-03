@@ -10,7 +10,7 @@ gui::gui(QWidget* parent)
             [this, text]() { appendOutputArea(text); },
             Qt::QueuedConnection
         );
-    }),
+    }, 54000),
     client_("127.0.0.1", 54000) { 
 
     ui.setupUi(this);
@@ -43,4 +43,6 @@ void gui::appendOutputArea(const std::string &text) {
 
 gui::~gui() {
     server_.stop();
+    client_.stop();
+
 }

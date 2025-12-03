@@ -7,9 +7,10 @@
 
 #pragma comment (lib, "ws2_32.lib")
 
-Server::Server(OutputFn outputFn)
-    : isOn(false),
-    outputFn_(std::move(outputFn)) {
+
+
+Server::Server(OutputFn outputFn, unsigned short port)
+    : isOn(false), outputFn_(std::move(outputFn)), port_(port) {
 }
 
 Server::~Server() {
@@ -58,7 +59,7 @@ int Server::run() {
     sockaddr_in serverHint{};
     serverHint.sin_addr.S_un.S_addr = ADDR_ANY;
     serverHint.sin_family = AF_INET;
-    serverHint.sin_port = htons(54000);
+    serverHint.sin_port = htons(port_);
 
     if (bind(in, reinterpret_cast<sockaddr*>(&serverHint), sizeof(serverHint)) == SOCKET_ERROR) {
         std::cout << "cannot bind the socket: " << WSAGetLastError() << '\n';
@@ -98,7 +99,9 @@ int Server::run() {
 
          std::cout << "SERVER: message recv from " << clientIp << " : " << buff << '\n';
         // call the method for gui class and let the output handle itself
-        outputFn_(msg);
+
+        if(outputFn_) outputFn_(msg);
+
     }
 
     closesocket(in);
