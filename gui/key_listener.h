@@ -3,16 +3,18 @@
 #include <thread>
 #include <atomic>
 
-enum class MOVEMENT {
-    NONE,
-    FORWARD,
-    BACKWARD,
-    LEFT,
-    RIGHT
-};
-
 class KeyListener {
+
 public:
+    // create custom controls later
+    enum MOVEMENT {
+        NONE,
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT
+    };
+
     static void start();
     static void stop();
 private:
@@ -20,7 +22,6 @@ private:
 
     static std::atomic_bool running_;
     static std::thread worker_;
-    
 
     // check for movement directions
     static std::atomic<MOVEMENT> dirState_;

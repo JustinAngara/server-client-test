@@ -5,30 +5,32 @@
 // define the static variables
 std::atomic_bool KeyListener::running_{ false };
 std::thread KeyListener::worker_{};
-std::atomic<MOVEMENT> KeyListener::dirState_{ MOVEMENT::NONE };
-std::atomic<MOVEMENT> KeyListener::lastDirState_{ MOVEMENT::NONE };
+std::atomic<KeyListener::MOVEMENT> KeyListener::dirState_{ KeyListener::NONE };
+std::atomic<KeyListener::MOVEMENT> KeyListener::lastDirState_{ KeyListener::NONE };
 
-MOVEMENT updateKeyState(int keyCode) {
+KeyListener::MOVEMENT updateKeyState(int keyCode) {
 
     // pressed
     if (GetAsyncKeyState(keyCode) & 0x8000) {
         char keyChar = static_cast<char>(keyCode);
 
+        
         switch (keyChar) {
-        case 'W':
-            return MOVEMENT::FORWARD;
+            // focus on the movement side
+            case 'W':
+                return KeyListener::FORWARD;
 
-        case 'A':
-            return MOVEMENT::LEFT;
+            case 'A':
+                return KeyListener::LEFT;
 
-        case 'S':
-            return MOVEMENT::BACKWARD;
+            case 'S':
+                return KeyListener::BACKWARD;
 
-        case 'D':
-            return MOVEMENT::RIGHT;
+            case 'D':
+                return KeyListener::RIGHT;
 
-        default:
-            return MOVEMENT::NONE;
+            default:
+                return KeyListener::NONE;
         }
 
     }
@@ -71,7 +73,9 @@ void KeyListener::run() {
                 MOVEMENT newKeyState = updateKeyState(keyCode);
 
                 dirState_ = newKeyState;
-                std::cout << static_cast<int>(dirState_.load()) << '\n';
+            
+                // std::cout << static_cast<int>(dirState_.load()) << '\n';
+            
             }
         }
     }

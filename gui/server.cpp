@@ -32,7 +32,7 @@ void Server::stop() {
     }
 
     isOn = false;
-    // optional: if (future.valid()) future.wait();
+    
 }
 
 int Server::run() {

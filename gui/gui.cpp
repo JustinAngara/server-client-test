@@ -10,11 +10,12 @@ gui::gui(QWidget* parent)
             [this, text]() { appendOutputArea(text); },
             Qt::QueuedConnection
         );
-    }, 54000),
-    client_("127.0.0.1", 54000) { 
+    }, 54004),
+    client_("127.0.0.1", 54004) {
 
     ui.setupUi(this);
 
+    // anon functions with passing in this will refer back to gui class
     connect(ui.button,  &QPushButton::clicked,
             this, [this]() { server_.start(); });
 

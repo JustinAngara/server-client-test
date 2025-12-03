@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 
+
 #pragma comment (lib, "ws2_32.lib")
 
 Client::Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 54000)
@@ -15,6 +16,8 @@ Client::Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 
 }
 
 Client::~Client() {
+    
+
     stop();
 }
 

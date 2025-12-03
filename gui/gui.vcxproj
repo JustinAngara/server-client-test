@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="client.cpp" />
     <ClCompile Include="key_listener.cpp" />
+    <ClCompile Include="Packet.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="utils.cpp" />
     <QtRcc Include="gui.qrc" />
@@ -105,6 +106,7 @@
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="key_listener.h" />
+    <ClInclude Include="Packet.h" />
     <ClInclude Include="server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
