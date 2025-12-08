@@ -11,7 +11,7 @@ gui::gui(QWidget* parent)
             Qt::QueuedConnection
         );
     }, 54004),
-    client_("127.0.0.1", 54004) {
+    client_("127.0.0.1", 54004) { // use 127.0.0.1
 
     ui.setupUi(this);
 

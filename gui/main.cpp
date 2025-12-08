@@ -1,9 +1,13 @@
 #include "gui.h"
 #include "key_listener.h"
 #include <iostream>
-//void p(int a) { std::cout << a << 'n'; }
+
+
 int main(int argc, char* argv[]) {
-    
+    int x = 5;
+
+    t(x);
+
     KeyListener::start();
 
     QApplication app(argc, argv);

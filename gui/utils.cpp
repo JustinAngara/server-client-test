@@ -5,7 +5,8 @@ class utils {
 private:
 	int width{ 1920 }, height{ 1080 };
 public:
-	utils(int w, int h) : width(w), height(h) {	
+	utils(int w, int h) 
+		: width(w), height(h) {	
 		// constructor	
 	}
 	int getWidth() { return width; }
@@ -17,9 +18,5 @@ public:
 
 		return false;
 	}
-
-	
-
-	// click
 
 };

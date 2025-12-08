@@ -10,6 +10,7 @@
 
 
 Server::Server(OutputFn outputFn, unsigned short port)
+
     : isOn(false), outputFn_(std::move(outputFn)), port_(port) {
 }
 
@@ -59,7 +60,7 @@ int Server::run() {
     sockaddr_in serverHint{};
     serverHint.sin_addr.S_un.S_addr = ADDR_ANY;
     serverHint.sin_family = AF_INET;
-    serverHint.sin_port = htons(port_);
+    serverHint.sin_port = htons(port_); // parse port 54000 into a standard network
 
     if (bind(in, reinterpret_cast<sockaddr*>(&serverHint), sizeof(serverHint)) == SOCKET_ERROR) {
         std::cout << "cannot bind the socket: " << WSAGetLastError() << '\n';
@@ -91,9 +92,12 @@ int Server::run() {
         }
 
         char clientIp[256];
-        ZeroMemory(clientIp, 256);
-        inet_ntop(AF_INET, &client.sin_addr, clientIp, 256);
+        ZeroMemory(clientIp, 256); // make the buffer 0 (unintialized)
+        // converts the ipv4 from bytes to string
+        inet_ntop(AF_INET, &client.sin_addr, clientIp, 256); 
         
+        std::cout << "this is the ipv4 address: " << clientIp << '\n'; //127.0.0.1 
+
         std::string msg(buff, bytesIn);
         msg.pop_back();// adds weird char at the end so remove
 
