@@ -8,7 +8,7 @@
 
 #pragma comment (lib, "ws2_32.lib")
 
-Client::Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 54000)
+Client::Client(const std::string& serverIp, unsigned short port)
     : serverIp_(serverIp),
     port_(port),
     isOn_(false),
@@ -82,7 +82,7 @@ bool Client::sendMessage(const std::string& msg) {
     int sendOk = sendto(
         out_,
         msg.c_str(),
-        static_cast<int>(msg.size()),
+        static_cast<int>(msg.size()+1), // small fix bug, essentially not sending any more of size to buffer
         0,
         reinterpret_cast<sockaddr*>(&server_),
         sizeof(server_)

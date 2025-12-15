@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // define the static variables
-std::atomic_bool KeyListener::running_{ false };
+std::atomic_bool KeyListener::running_ { false };
 std::thread KeyListener::worker_{};
 std::atomic<KeyListener::MOVEMENT> KeyListener::dirState_{ KeyListener::NONE };
 std::atomic<KeyListener::MOVEMENT> KeyListener::lastDirState_{ KeyListener::NONE };
@@ -74,7 +74,7 @@ void KeyListener::run() {
 
                 dirState_ = newKeyState;
             
-                // std::cout << static_cast<int>(dirState_.load()) << '\n';
+                 //std::cout << static_cast<int>(dirState_.load()) << '\n';
             
             }
         }

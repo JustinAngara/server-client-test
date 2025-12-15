@@ -10,8 +10,8 @@ gui::gui(QWidget* parent)
             [this, text]() { appendOutputArea(text); },
             Qt::QueuedConnection
         );
-    }, 54004),
-    client_("127.0.0.1", 54004) { // use 127.0.0.1
+    }, 54000),
+    client_() { // use 127.0.0.1
 
     ui.setupUi(this);
 

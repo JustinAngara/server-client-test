@@ -5,7 +5,7 @@
 
 class Client {
 public:
-    Client(const std::string& serverIp, unsigned short port);
+    Client(const std::string& serverIp = "127.0.0.1", unsigned short port = 54000);
     ~Client();
 
     bool start();                           // init Winsock + socket
