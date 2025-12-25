@@ -49,9 +49,6 @@
     <ClCompile Include="key_listener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Packet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="gui.h">
@@ -68,7 +65,7 @@
     <ClInclude Include="key_listener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Packet.h">
+    <ClInclude Include="NetPacket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

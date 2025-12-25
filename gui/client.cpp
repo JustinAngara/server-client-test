@@ -29,6 +29,8 @@ bool Client::start() {
 
     WSADATA data{};
     WORD version{ MAKEWORD(2, 2) };
+
+
     int wsOk{ WSAStartup(version, &data) };
     if (wsOk != 0) {
         std::cout << "cant start winsock " << wsOk << '\n';
