@@ -18,4 +18,10 @@ namespace NetPacket {
         PlayerId       receiver;
         std::uint32_t  sequence;
     };
+
+    struct Payload {
+        // this will include the char byte array itself
+        const char* data; 
+        std::uint32_t size;
+    };
 }

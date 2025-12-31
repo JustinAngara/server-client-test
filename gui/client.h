@@ -12,7 +12,7 @@ public:
     void stop();                            // cleanup
 
     bool sendMessage(const std::string& msg);
-    bool sendPacket(NetPacket::Header msg);
+    bool sendPacket(NetPacket::Header header, NetPacket::Payload);
 
 
 private:
